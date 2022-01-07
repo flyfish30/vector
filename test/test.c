@@ -6,6 +6,9 @@
 int main(int argc, const char* argv[]) {
 	int i;
 
+	(void) argc;
+	(void) argv;
+
 	printf("TESTING SETUP ...\n");
 	Vector vector = VECTOR_INITIALIZER;
 	assert(!vector_is_initialized(&vector));
@@ -17,7 +20,7 @@ int main(int argc, const char* argv[]) {
 	for (i = 0; i < 1000; ++i) {
 		assert(vector_insert(&vector, 0, &i) == VECTOR_SUCCESS);
 		assert(VECTOR_GET_AS(int, &vector, 0) == i);
-		assert(vector.size == i + 1);
+		assert(vector.size == (size_t) i + 1);
 	}
 
 	int x = 5;
@@ -26,7 +29,7 @@ int main(int argc, const char* argv[]) {
 
 	printf("TESTING ASSIGNMENT ...\n");
 
-	for (i = 0; i < vector.size; ++i) {
+	for (i = 0; (size_t) i < vector.size; ++i) {
 		int value = 666;
 		assert(vector_assign(&vector, i, &value) == VECTOR_SUCCESS);
 	}
@@ -71,7 +74,16 @@ int main(int argc, const char* argv[]) {
 	assert(vector_is_empty(&vector));
 	assert(vector.capacity == VECTOR_MINIMUM_CAPACITY);
 
+	printf("TESTING COPY 0 size vector ...\n");
+	Vector vector_dup = VECTOR_INITIALIZER;
+	vector_copy(&vector_dup, &vector);
+	assert(vector_dup.size == 0);
+	assert(vector_is_empty(&vector_dup));
+	assert(vector_dup.capacity == VECTOR_MINIMUM_CAPACITY);
+
+
 	vector_destroy(&vector);
+	vector_destroy(&vector_dup);
 
 	printf("\033[92mALL TEST PASSED\033[0m\n");
 }

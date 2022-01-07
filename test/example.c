@@ -4,6 +4,9 @@ int main(int argc, const char* argv[]) {
 	Vector vector;
 	int x, y, sum;
 
+	(void) argc;
+	(void) argv;
+
 	/* Choose initial capacity of 10 */
 	/* Specify the size of the elements you want to store once */
 	vector_setup(&vector, 10, sizeof(int));

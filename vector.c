@@ -52,7 +52,11 @@ int vector_copy(Vector* destination, Vector* source) {
 
 	/* Copy ALL the data */
 	destination->size = source->size;
-	destination->capacity = source->size * 2;
+	if (source->size == 0) {
+	    destination->capacity = VECTOR_MINIMUM_CAPACITY;
+	} else {
+	    destination->capacity = source->size * 2;
+	}
 	destination->element_size = source->element_size;
 
 	/* Note that we are not necessarily allocating the same capacity */
